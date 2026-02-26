@@ -2,6 +2,8 @@ import ProductHero from "@/components/ProductHero";
 import ModelShowcase from "@/components/ModelShowcase";
 import AnimatedCatalog from "@/components/AnimatedCatalog";
 import AboutSection from "@/components/AboutSection";
+import CategorySections from "@/components/CategorySections";
+import ProductCatalog from "@/components/ProductCatalog";
 
 export default function Home() {
   return (
@@ -14,6 +16,12 @@ export default function Home() {
 
       {/* Product Detail Section (Middle Section from Image 2) */}
       <ProductHero />
+
+      {/* Category Sections (Bridal, Dresses, etc.) */}
+      <CategorySections />
+
+      {/* Featured Products */}
+      <ProductCatalog title="FEATURED COLLECTION" limit={5} />
 
       {/* About Section */}
       <AboutSection />

@@ -56,12 +56,7 @@ export default function AboutSection() {
                         fill
                         className="object-cover"
                     />
-                    {/* Overlay Text Element */}
-                    <div className="absolute inset-0 flex items-center justify-center p-12">
-                        <div className="border border-white/30 backdrop-blur-md p-10 text-white text-center">
-                            <span className="text-5xl font-display tracking-[0.2em]">GERA</span>
-                        </div>
-                    </div>
+
                 </motion.div>
             </div>
         </section>

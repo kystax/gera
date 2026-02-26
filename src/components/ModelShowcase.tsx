@@ -11,7 +11,7 @@ export default function ModelShowcase() {
     ];
 
     return (
-        <section className="bg-white py-10 px-4">
+        <section className="bg-white pt-32 pb-10 px-4">
             {/* 3-Panel Main Showcase */}
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-1 mb-20 relative">
                 {models.map((model, idx) => (
