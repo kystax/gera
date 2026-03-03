@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 
 export default function ModelShowcase() {
     const models = [
-        { src: "/assets/003.jpg", alt: "Model 1", span: "col-span-1" },
-        { src: "/assets/004.jpg", alt: "Model 2", span: "col-span-1" },
-        { src: "/assets/010.jpg", alt: "Model 3", span: "col-span-1" },
+        { src: "/assets/pants/003.jpg", alt: "Model 1", span: "col-span-1" },
+        { src: "/assets/dresses/004.jpg", alt: "Model 2", span: "col-span-1" },
+        { src: "/assets/dresses/010.jpg", alt: "Model 3", span: "col-span-1" },
     ];
 
     return (

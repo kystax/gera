@@ -30,12 +30,12 @@ export default function Home() {
       <footer className="bg-brand-charcoal text-white py-20 px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
           <div className="text-4xl font-display tracking-[0.3em] font-light">GERA</div>
-          <div className="flex gap-10 text-[10px] uppercase tracking-[0.2em] font-medium text-gray-400">
+          <div className="flex gap-10 text-xs uppercase tracking-[0.2em] font-black text-gray-400">
             <span className="cursor-pointer hover:text-white transition-colors">Instagram</span>
             <span className="cursor-pointer hover:text-white transition-colors">Facebook</span>
             <span className="cursor-pointer hover:text-white transition-colors">Pinterest</span>
           </div>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500">
+          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 font-bold">
             © 2026 GERA. All Rights Reserved.
           </p>
         </div>

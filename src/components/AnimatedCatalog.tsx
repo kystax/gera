@@ -12,7 +12,7 @@ const products = [
         id: 1,
         name: "ELITE BLAZER",
         price: "$345.00",
-        image: "/assets/012.jpg",
+        image: "/assets/dresses/012.jpg",
         desc: "Structured elegance for the modern individual. Tailored to perfection.",
         colors: ["#1A1A1A", "#8A8A8A"],
         label: "LOOK 01"
@@ -21,7 +21,7 @@ const products = [
         id: 2,
         name: "SILK SLIP DRESS",
         price: "$210.00",
-        image: "/assets/011.jpg",
+        image: "/assets/dresses/011.jpg",
         desc: "A timeless silhouette in 100% mulberry silk. Effortless grace.",
         colors: ["#1A1A1A", "#EBE6DE", "#C5D8C1"],
         label: "LOOK 02"
@@ -30,7 +30,7 @@ const products = [
         id: 3,
         name: "MINIMALIST BLOUSE",
         price: "$178.00",
-        image: "/assets/001.jpg",
+        image: "/assets/tops/001.jpg",
         desc: "Breathable cotton with a refined drape. Pure sophistication.",
         colors: ["#FFFFFF", "#1A1A1A", "#F6F4F0"],
         label: "LOOK 03"
@@ -39,7 +39,7 @@ const products = [
         id: 4,
         name: "KNIT CO-ORD SET",
         price: "$280.00",
-        image: "/assets/005.jpg",
+        image: "/assets/dresses/005.jpg",
         desc: "Soft merino wool blend for effortless comfort and style.",
         colors: ["#A5907E", "#1A1A1A"],
         label: "LOOK 04"

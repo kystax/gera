@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, ShoppingBag, User, Menu, X, ChevronDown } from "lucide-react";
+import { Search, ShoppingBag, User, Menu, X, ChevronDown, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import CartDrawer from "./CartDrawer";
 import { usePathname } from "next/navigation";
@@ -11,8 +12,10 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { cartCount } = useCart();
+  const { data: session } = useSession();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -105,9 +108,53 @@ export default function Navbar() {
                 <Search size={22} strokeWidth={1.5} />
               </button>
 
-              <button className="text-brand-charcoal hover:text-brand-accent transition-all hover:scale-110 hidden sm:block">
-                <User size={22} strokeWidth={1.5} />
-              </button>
+              <div className="relative group/user">
+                {session ? (
+                  <div className="flex items-center gap-3">
+                    <span className="hidden md:block text-[10px] uppercase font-black tracking-widest text-gray-400">
+                      Welcome, {session.user?.name?.split(' ')[0]}
+                    </span>
+                    <button
+                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                      className="text-brand-charcoal hover:text-brand-accent transition-all hover:scale-110"
+                    >
+                      <User size={22} strokeWidth={1.5} />
+                    </button>
+
+                    <AnimatePresence>
+                      {isUserMenuOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          className="absolute top-full right-0 pt-4"
+                        >
+                          <div className="bg-white border border-gray-100 shadow-[0_40px_80px_rgba(0,0,0,0.1)] p-6 min-w-[200px] rounded-[24px]">
+                            <div className="space-y-4">
+                              <p className="text-[10px] uppercase font-black tracking-widest text-gray-300 border-b border-gray-50 pb-2">Member Account</p>
+                              <button
+                                onClick={() => signOut()}
+                                className="w-full flex items-center justify-between text-xs font-bold text-gray-400 hover:text-red-500 transition-colors group/logout"
+                              >
+                                Sign Out
+                                <LogOut size={14} className="group-hover/logout:translate-x-1 transition-transform" />
+                              </button>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link
+                    href="/signin"
+                    className="text-[11px] uppercase font-black tracking-widest text-brand-charcoal hover:text-brand-accent transition-all flex items-center gap-2"
+                  >
+                    <User size={18} strokeWidth={1.5} />
+                    <span className="hidden sm:inline">Sign In</span>
+                  </Link>
+                )}
+              </div>
 
               <button
                 onClick={() => setIsCartOpen(true)}

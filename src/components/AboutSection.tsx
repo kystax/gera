@@ -51,7 +51,7 @@ export default function AboutSection() {
                     className="relative aspect-square md:aspect-[4/5] overflow-hidden"
                 >
                     <Image
-                        src="/assets/007.jpg"
+                        src="/assets/dresses/007.jpg"
                         alt="About GERA"
                         fill
                         className="object-cover"

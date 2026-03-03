@@ -6,7 +6,7 @@ export default function AboutPage() {
         <main className="min-h-screen">
             <div className="relative h-[60vh] flex items-center justify-center overflow-hidden">
                 <Image
-                    src="/assets/003.jpg"
+                    src="/assets/bridal/003.jpg"
                     alt="About Hero"
                     fill
                     className="object-cover brightness-50"
