@@ -72,43 +72,43 @@ export default function ProductDetailPage() {
         <div className="min-h-screen bg-[#FAF9F6] text-brand-charcoal selection:bg-brand-charcoal selection:text-white">
             <main className="grid grid-cols-1 lg:grid-cols-12 min-h-screen pt-32">
                 {/* Left: Visual Showcase (7 cols) */}
-                <div className="lg:col-span-7 h-[80vh] lg:h-[calc(100vh-160px)] lg:sticky lg:top-36 overflow-hidden bg-white rounded-[40px] shadow-2xl border border-gray-100/50 mx-4 md:mx-8 mb-8 lg:mb-0">
+                <div className="lg:col-span-12 h-[80vh] lg:h-[90vh] sticky top-0 overflow-hidden bg-white border-b border-gray-100">
                     <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="relative w-full h-full p-4 lg:p-12"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1.5 }}
+                        className="relative w-full h-full"
                     >
                         <Image
                             src={product.image}
                             alt={product.name}
                             fill
-                            className="object-contain"
+                            className="object-contain p-8 lg:p-20"
                             priority
                         />
                     </motion.div>
 
                     {/* Image Controls Overlay */}
-                    <div className="absolute bottom-8 left-8 flex flex-col gap-4">
+                    <div className="absolute bottom-10 left-10 flex flex-col gap-6">
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-brand-charcoal border border-white/20 shadow-xl cursor-pointer"
+                            className="w-14 h-14 bg-white/80 backdrop-blur-md flex items-center justify-center text-brand-charcoal border border-gray-100 shadow-xl cursor-pointer"
                         >
-                            <Heart size={20} strokeWidth={1} />
+                            <Heart size={24} strokeWidth={1} />
                         </motion.button>
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-brand-charcoal border border-white/20 shadow-xl cursor-pointer"
+                            className="w-14 h-14 bg-white/80 backdrop-blur-md flex items-center justify-center text-brand-charcoal border border-gray-100 shadow-xl cursor-pointer"
                         >
-                            <Share2 size={20} strokeWidth={1} />
+                            <Share2 size={24} strokeWidth={1} />
                         </motion.button>
                     </div>
                 </div>
 
                 {/* Right: Content & Detail (5 cols) */}
-                <div className="lg:col-span-5 px-8 lg:px-20 pb-20 flex flex-col bg-transparent">
+                <div className="lg:col-span-12 px-8 lg:px-40 py-20 flex flex-col bg-white">
                     <div className="max-w-xl mx-auto w-full space-y-12">
                         {/* Product Header */}
                         <div className="space-y-6">

@@ -68,7 +68,7 @@ export default function ProductCatalog({ title = "CATALOG", limit }: { title?: s
                             viewport={{ once: true }}
                             className="group"
                         >
-                            <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 mb-6 shadow-sm group-hover:shadow-xl transition-all duration-700 rounded-3xl">
+                            <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 mb-6 shadow-sm group-hover:shadow-xl transition-all duration-700">
                                 <Link href={`/product/${product.pid || product._id}`} className="block w-full h-full relative z-0">
                                     <Image
                                         src={product.image}
@@ -91,7 +91,7 @@ export default function ProductCatalog({ title = "CATALOG", limit }: { title?: s
                                                 image: product.image
                                             });
                                         }}
-                                        className="bg-[#2D2E5F] text-white p-4 rounded-full shadow-2xl hover:bg-[#3d3e75] transition-all transform hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center"
+                                        className="bg-[#2D2E5F] text-white p-4 shadow-2xl hover:bg-[#3d3e75] transition-all transform hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center"
                                     >
                                         <ShoppingBag size={20} strokeWidth={2} />
                                     </button>

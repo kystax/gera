@@ -57,18 +57,25 @@ export default function CategoryPage() {
     return (
         <div className="bg-brand-paper min-h-screen pb-20 pt-20">
             {/* Category Header */}
-            <div className="h-[40vh] relative flex items-center justify-center overflow-hidden mb-16 rounded-[40px] mx-4 md:mx-12 lg:mx-20 shadow-2xl">
-                <div className="absolute inset-0 z-0 text-brand-charcoal">
+            <div className="h-[60vh] relative flex items-center justify-center overflow-hidden mb-20 bg-brand-charcoal">
+                <div className="absolute inset-0 z-0">
                     <Image
                         src={filteredProducts[0].image}
                         alt={category}
                         fill
-                        className="object-cover brightness-50 blur-[2px] scale-110"
+                        className="object-cover brightness-[0.4] scale-105"
                     />
                 </div>
                 <div className="relative z-10 text-center text-white">
-                    <span className="text-xs uppercase tracking-[0.4em] mb-4 block font-bold transition-all">Exclusive Collection</span>
-                    <h1 className="text-6xl md:text-8xl font-display tracking-widest uppercase">{category}</h1>
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
+                    >
+                        <span className="text-xs uppercase tracking-[0.6em] mb-6 block font-bold opacity-80">Exclusive Collection</span>
+                        <h1 className="text-7xl md:text-9xl font-display tracking-[0.2em] uppercase">{category}</h1>
+                        <div className="w-24 h-0.5 bg-brand-accent mx-auto mt-8" />
+                    </motion.div>
                 </div>
             </div>
 
@@ -84,7 +91,7 @@ export default function CategoryPage() {
                             viewport={{ once: true }}
                             className="group flex flex-col"
                         >
-                            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 group-hover:shadow-2xl transition-all duration-500 rounded-3xl">
+                            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 group-hover:shadow-2xl transition-all duration-500">
                                 <Link href={`/product/${product.pid || product._id}`} className="block w-full h-full">
                                     <Image
                                         src={product.image}
@@ -106,7 +113,7 @@ export default function CategoryPage() {
                                             image: product.image
                                         });
                                     }}
-                                    className="absolute bottom-6 left-6 right-6 bg-white text-brand-charcoal py-5 rounded-full flex items-center justify-center gap-3 translate-y-24 group-hover:translate-y-0 transition-transform duration-500 hover:bg-brand-charcoal hover:text-white z-10 cursor-pointer active:scale-95 shadow-xl"
+                                    className="absolute bottom-6 left-6 right-6 bg-white text-brand-charcoal py-5 flex items-center justify-center gap-3 translate-y-24 group-hover:translate-y-0 transition-transform duration-500 hover:bg-brand-charcoal hover:text-white z-10 cursor-pointer active:scale-95 shadow-xl"
                                 >
                                     <ShoppingCart size={18} />
                                     <span className="text-xs uppercase tracking-widest font-black">Add to Cart</span>
