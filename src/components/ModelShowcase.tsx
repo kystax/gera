@@ -34,25 +34,25 @@ export default function ModelShowcase() {
                 ))}
 
                 {/* Overlapping Text Element (Based on Image 1) */}
-                <div className="absolute top-1/2 left-10 -translate-y-1/2 z-20 pointer-events-none">
+                <div className="absolute top-1/2 left-4 md:left-10 -translate-y-1/2 z-20 pointer-events-none w-full pr-8">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.5, duration: 1 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-6xl md:text-8xl font-display text-white mix-blend-difference leading-[0.8] mb-4">
+                        <h2 className="text-4xl sm:text-6xl md:text-8xl font-display text-white mix-blend-difference leading-[0.8] mb-4">
                             EXCLUSIVE<br />COLLECTION
                         </h2>
-                        <p className="text-white mix-blend-difference text-xs uppercase tracking-[0.4em] max-w-[200px]">
+                        <p className="text-white mix-blend-difference text-[10px] sm:text-xs uppercase tracking-[0.4em] max-w-[150px] sm:max-w-[200px]">
                             Elegance redefined through minimal silhouettes and premium materials.
                         </p>
                     </motion.div>
                 </div>
 
                 {/* CTA Button overlay */}
-                <div className="absolute bottom-20 right-20 z-20">
-                    <button className="bg-white text-brand-charcoal px-10 py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-charcoal hover:text-white transition-all shadow-xl">
+                <div className="absolute bottom-10 right-10 md:bottom-20 md:right-20 z-20">
+                    <button className="bg-white text-brand-charcoal px-6 md:px-10 py-3 md:py-4 uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold hover:bg-brand-charcoal hover:text-white transition-all shadow-xl cursor-pointer">
                         Explore Catalog
                     </button>
                 </div>

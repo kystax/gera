@@ -1,5 +1,5 @@
 export type Product = {
-    id: number;
+    id: string;
     name: string;
     price: string;
     category: 'bridal' | 'dresses' | 'pants' | 'tops' | 'skirts';
@@ -10,7 +10,7 @@ export type Product = {
 export const products: Product[] = [
     // Bridal (Id: 1xx)
     ...Array.from({ length: 7 }, (_, i) => ({
-        id: 101 + i,
+        id: String(101 + i),
         name: `ELITE BRIDAL ${i + 1}`,
         price: `$${(1200 + i * 150).toLocaleString()}.00`,
         category: "bridal" as const,
@@ -19,7 +19,7 @@ export const products: Product[] = [
     })),
     // Dresses (Id: 2xx)
     ...Array.from({ length: 14 }, (_, i) => ({
-        id: 201 + i,
+        id: String(201 + i),
         name: `SILK DRESS ${i + 1}`,
         price: `$${(280 + i * 25).toLocaleString()}.00`,
         category: "dresses" as const,
@@ -28,7 +28,7 @@ export const products: Product[] = [
     })),
     // Tops (Id: 3xx)
     ...Array.from({ length: 2 }, (_, i) => ({
-        id: 301 + i,
+        id: String(301 + i),
         name: `PREMIUM TOP ${i + 1}`,
         price: `$${(145 + i * 40).toLocaleString()}.00`,
         category: "tops" as const,
@@ -37,8 +37,8 @@ export const products: Product[] = [
     })),
     // Skirts (Id: 4xx)
     ...Array.from({ length: 7 }, (_, i) => ({
-        id: 401 + i,
-        name: `DESIGNER SKIRT ${i + 1}`,
+        id: String(401 + i),
+        name: `DESIGNER SKIRT ${i + i + 1}`,
         price: `$${(110 + i * 20).toLocaleString()}.00`,
         category: "skirts" as const,
         image: `/assets/skirts/${String(i + 1).padStart(3, '0')}.jpg`,
@@ -46,8 +46,8 @@ export const products: Product[] = [
     })),
     // Pants (Id: 5xx)
     ...Array.from({ length: 11 }, (_, i) => ({
-        id: 501 + i,
-        name: `TAILORED PANTS ${i + i + 1}`,
+        id: String(501 + i),
+        name: `TAILORED PANTS ${i + 1}`,
         price: `$${(160 + i * 15).toLocaleString()}.00`,
         category: "pants" as const,
         image: `/assets/pants/${String(i + 1).padStart(3, '0')}.jpg`,

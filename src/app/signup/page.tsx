@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
-import { ArrowLeft, User, Mail, Lock, CheckCircle2, ChevronRight } from "lucide-react";
+import { ArrowLeft, User, Mail, Lock as LockIcon, CheckCircle2, ChevronRight } from "lucide-react";
 
 export default function SignupPage() {
     const router = useRouter();
@@ -29,7 +30,17 @@ export default function SignupPage() {
 
             if (res.ok) {
                 setSuccess(true);
-                setTimeout(() => router.push("/signin"), 2000);
+                // Auto sign in user
+                await signIn("credentials", {
+                    redirect: false,
+                    email: formData.email,
+                    password: formData.password,
+                });
+
+                setTimeout(() => {
+                    router.push("/");
+                    router.refresh();
+                }, 2000);
             } else {
                 setError(data.message || "Registration failed");
             }
@@ -58,10 +69,10 @@ export default function SignupPage() {
                         transition={{ duration: 1 }}
                     >
                         <h1 className="text-8xl font-display text-white tracking-[0.2em] mb-4">GERA</h1>
-                        <p className="text-white/60 text-xs uppercase tracking-[0.5em] font-light">Join the Heritage</p>
+                        <p className="text-white uppercase tracking-[0.4em] font-bold text-sm">Join the Heritage</p>
                     </motion.div>
                     <div className="w-px h-24 bg-white/20 mx-auto" />
-                    <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] max-w-sm leading-relaxed">
+                    <p className="text-white/60 text-xs uppercase tracking-[0.3em] max-w-sm leading-relaxed font-medium">
                         Create an account to access exclusive collections, personalized concierge services, and early access to seasonal releases.
                     </p>
                 </div>
@@ -71,12 +82,12 @@ export default function SignupPage() {
             <div className="flex-1 flex flex-col justify-center px-8 md:px-20 lg:px-32 py-20 bg-white">
                 <div className="max-w-md w-full mx-auto space-y-12">
                     <div className="space-y-4">
-                        <Link href="/" className="inline-flex items-center gap-2 text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 hover:text-brand-charcoal transition-colors group">
-                            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                        <Link href="/" className="inline-flex items-center gap-2 text-xs uppercase font-bold tracking-[0.1em] text-gray-500 hover:text-brand-charcoal transition-colors group">
+                            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                             Return Home
                         </Link>
                         <h2 className="text-4xl md:text-5xl font-display text-brand-charcoal">CREATE ACCOUNT</h2>
-                        <p className="text-sm text-gray-400 font-light">Welcome to the inner circle of GERA.</p>
+                        <p className="text-base text-gray-500 font-medium italic">Welcome to the inner circle of GERA.</p>
                     </div>
 
                     {success ? (
@@ -101,7 +112,7 @@ export default function SignupPage() {
 
                             <div className="space-y-6">
                                 <div className="space-y-2 relative group">
-                                    <label className="text-[10px] uppercase tracking-[0.3em] font-black text-gray-300 group-focus-within:text-brand-accent transition-colors">Full Name</label>
+                                    <label className="text-xs uppercase tracking-[0.2em] font-black text-gray-500 group-focus-within:text-brand-accent transition-colors">Full Name</label>
                                     <div className="relative">
                                         <User className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-200 group-focus-within:text-brand-accent transition-colors" size={18} strokeWidth={1.5} />
                                         <input
@@ -109,14 +120,14 @@ export default function SignupPage() {
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-sm font-light"
+                                            className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-base font-medium placeholder:text-gray-300"
                                             placeholder="Alexandra Varma"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2 relative group">
-                                    <label className="text-[10px] uppercase tracking-[0.3em] font-black text-gray-300 group-focus-within:text-brand-accent transition-colors">Email Address</label>
+                                    <label className="text-xs uppercase tracking-[0.2em] font-black text-gray-500 group-focus-within:text-brand-accent transition-colors">Email Address</label>
                                     <div className="relative">
                                         <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-200 group-focus-within:text-brand-accent transition-colors" size={18} strokeWidth={1.5} />
                                         <input
@@ -124,22 +135,22 @@ export default function SignupPage() {
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-sm font-light"
+                                            className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-base font-medium placeholder:text-gray-300"
                                             placeholder="alexandra@heritage.com"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2 relative group">
-                                    <label className="text-[10px] uppercase tracking-[0.3em] font-black text-gray-300 group-focus-within:text-brand-accent transition-colors">Password</label>
+                                    <label className="text-xs uppercase tracking-[0.2em] font-black text-gray-500 group-focus-within:text-brand-accent transition-colors">Password</label>
                                     <div className="relative">
-                                        <Lock className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-200 group-focus-within:text-brand-accent transition-colors" size={18} strokeWidth={1.5} />
+                                        <LockIcon className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-200 group-focus-within:text-brand-accent transition-colors" size={18} strokeWidth={1.5} />
                                         <input
                                             type="password"
                                             required
                                             value={formData.password}
                                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                            className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-sm font-light"
+                                            className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-base font-medium placeholder:text-gray-300"
                                             placeholder="••••••••"
                                         />
                                     </div>
@@ -159,8 +170,8 @@ export default function SignupPage() {
                                     <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </button>
 
-                                <p className="text-center text-[10px] uppercase font-bold tracking-widest text-gray-400">
-                                    ALREADY HAVE AN ACCOUNT? <Link href="/signin" className="text-brand-charcoal border-b border-brand-charcoal hover:text-brand-accent hover:border-brand-accent transition-all ml-2">SIGN IN</Link>
+                                <p className="text-center text-xs uppercase font-bold tracking-widest text-gray-500">
+                                    ALREADY HAVE AN ACCOUNT? <Link href="/signin" className="text-brand-charcoal border-b border-brand-charcoal hover:text-brand-accent hover:border-brand-accent transition-all ml-2 font-black">SIGN IN</Link>
                                 </p>
                             </div>
                         </form>

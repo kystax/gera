@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Mail, Lock, CheckCircle2, ChevronRight, Hand } from "lucide-react";
+import { ArrowLeft, Mail, Lock as LockIcon, CheckCircle2, ChevronRight, Hand } from "lucide-react";
 
 export default function SigninPage() {
     const router = useRouter();
@@ -56,10 +56,10 @@ export default function SigninPage() {
                         transition={{ duration: 1.5 }}
                     >
                         <h1 className="text-8xl font-display text-white tracking-[0.2em] mb-4">HEIRLOOM</h1>
-                        <p className="text-white/60 text-xs uppercase tracking-[0.5em] font-light">Authenticity & Elegance</p>
+                        <p className="text-white uppercase tracking-[0.4em] font-bold text-sm">Authenticity & Elegance</p>
                     </motion.div>
                     <div className="w-16 h-px bg-white/20 mx-auto" />
-                    <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] max-w-sm mx-auto leading-relaxed">
+                    <p className="text-white/60 text-xs uppercase tracking-[0.3em] max-w-sm mx-auto leading-relaxed font-medium">
                         Sign in to manage your appointments, view your order heritage, and access your curated wishlist.
                     </p>
                 </div>
@@ -69,12 +69,12 @@ export default function SigninPage() {
             <div className="flex-1 flex flex-col justify-center px-8 md:px-20 lg:px-32 py-20 bg-white shadow-2xl z-10">
                 <div className="max-w-md w-full mx-auto space-y-12">
                     <div className="space-y-4">
-                        <Link href="/" className="inline-flex items-center gap-2 text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 hover:text-brand-charcoal transition-colors group">
-                            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                        <Link href="/" className="inline-flex items-center gap-2 text-xs uppercase font-bold tracking-[0.1em] text-gray-500 hover:text-brand-charcoal transition-colors group">
+                            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                             To the Store
                         </Link>
                         <h2 className="text-4xl md:text-5xl font-display text-brand-charcoal">AUTHENTICATE</h2>
-                        <p className="text-sm text-gray-400 font-light italic">Continue your journey with GERA.</p>
+                        <p className="text-base text-gray-500 font-medium italic">Continue your journey with GERA.</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-8">
@@ -86,7 +86,7 @@ export default function SigninPage() {
 
                         <div className="space-y-6">
                             <div className="space-y-2 relative group">
-                                <label className="text-[10px] uppercase tracking-[0.3em] font-black text-gray-300 group-focus-within:text-brand-accent transition-colors">Email</label>
+                                <label className="text-xs uppercase tracking-[0.2em] font-black text-gray-500 group-focus-within:text-brand-accent transition-colors">Email</label>
                                 <div className="relative">
                                     <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-200 group-focus-within:text-brand-accent transition-colors" size={18} strokeWidth={1.5} />
                                     <input
@@ -94,7 +94,7 @@ export default function SigninPage() {
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-sm font-light"
+                                        className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-base font-medium placeholder:text-gray-300"
                                         placeholder="concierge@heritage.com"
                                     />
                                 </div>
@@ -102,17 +102,17 @@ export default function SigninPage() {
 
                             <div className="space-y-2 relative group">
                                 <div className="flex justify-between items-end">
-                                    <label className="text-[10px] uppercase tracking-[0.3em] font-black text-gray-300 group-focus-within:text-brand-accent transition-colors">Credential</label>
-                                    <button type="button" className="text-[9px] uppercase font-black text-gray-300 hover:text-brand-charcoal transition-colors tracking-widest">Forgotten?</button>
+                                    <label className="text-xs uppercase tracking-[0.2em] font-black text-gray-500 group-focus-within:text-brand-accent transition-colors">Credential</label>
+                                    <button type="button" className="text-[10px] uppercase font-black text-gray-400 hover:text-brand-charcoal transition-colors tracking-widest">Forgotten?</button>
                                 </div>
                                 <div className="relative">
-                                    <Lock className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-200 group-focus-within:text-brand-accent transition-colors" size={18} strokeWidth={1.5} />
+                                    <LockIcon className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-200 group-focus-within:text-brand-accent transition-colors" size={18} strokeWidth={1.5} />
                                     <input
                                         type="password"
                                         required
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                        className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-sm font-light"
+                                        className="w-full bg-transparent border-b border-gray-100 py-4 pl-8 focus:border-brand-charcoal outline-none transition-all text-base font-medium placeholder:text-gray-300"
                                         placeholder="••••••••"
                                     />
                                 </div>
@@ -132,8 +132,8 @@ export default function SigninPage() {
                                 <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity" />
                             </button>
 
-                            <p className="text-center text-[10px] uppercase font-bold tracking-widest text-gray-400">
-                                NEW TO THE INNER CIRCLE? <Link href="/signup" className="text-brand-charcoal border-b border-brand-charcoal hover:text-brand-accent hover:border-brand-accent transition-all ml-2">CREATE ACCOUNT</Link>
+                            <p className="text-center text-xs uppercase font-bold tracking-widest text-gray-500">
+                                NEW TO THE INNER CIRCLE? <Link href="/signup" className="text-brand-charcoal border-b border-brand-charcoal hover:text-brand-accent hover:border-brand-accent transition-all ml-2 font-black">CREATE ACCOUNT</Link>
                             </p>
                         </div>
                     </form>

@@ -7,16 +7,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { products as allProducts } from "@/data/products";
 import Link from "next/link";
+import SizeChartModal from "@/components/SizeChartModal";
 
 export default function ProductHero() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const { addToCart } = useCart();
+    const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
 
     // Showcase 3 top products from different categories
     const arrivals = [
-        allProducts.find(p => p.id === 101)!,
-        allProducts.find(p => p.id === 201)!,
-        allProducts.find(p => p.id === 301)!
+        allProducts.find(p => String(p.id) === "101")!,
+        allProducts.find(p => String(p.id) === "201")!,
+        allProducts.find(p => String(p.id) === "301")!
     ];
 
     const currentProduct = arrivals[currentIndex];
@@ -51,7 +53,7 @@ export default function ProductHero() {
                     onClick={prevProduct}
                     className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4 group cursor-pointer z-20"
                 >
-                    <span className="text-[10px] uppercase tracking-[0.3em] rotate-180 [writing-mode:vertical-lr] font-medium text-gray-400 group-hover:text-brand-charcoal transition-colors">Prev</span>
+                    <span className="text-xs uppercase tracking-[0.2em] rotate-180 [writing-mode:vertical-lr] font-bold text-gray-500 group-hover:text-brand-charcoal transition-colors">Prev</span>
                     <div className="w-px h-12 bg-gray-200 group-hover:bg-brand-charcoal transition-colors"></div>
                 </div>
 
@@ -83,7 +85,7 @@ export default function ProductHero() {
                     className="absolute right-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4 group cursor-pointer z-20"
                 >
                     <div className="w-px h-12 bg-gray-200 group-hover:bg-brand-charcoal transition-colors"></div>
-                    <span className="text-[10px] uppercase tracking-[0.3em] [writing-mode:vertical-lr] font-medium text-gray-400 group-hover:text-brand-charcoal transition-colors">Next</span>
+                    <span className="text-xs uppercase tracking-[0.2em] [writing-mode:vertical-lr] font-bold text-gray-500 group-hover:text-brand-charcoal transition-colors">Next</span>
                 </div>
             </div>
 
@@ -97,7 +99,7 @@ export default function ProductHero() {
                         exit={{ opacity: 0, x: -20 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <span className="inline-block text-[10px] uppercase tracking-[0.4em] text-brand-accent mb-3 font-bold">New Arrival Section</span>
+                        <span className="inline-block text-xs uppercase tracking-[0.3em] text-brand-accent mb-3 font-black">New Arrival Section</span>
                         <h1 className="text-4xl font-bold mb-4 leading-tight tracking-normal">
                             {currentProduct.name}
                         </h1>
@@ -109,7 +111,15 @@ export default function ProductHero() {
 
                         {/* Size Selector */}
                         <div className="mb-8">
-                            <h3 className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-4 text-gray-400">Select Size (US)</h3>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-gray-600">Select Size (US)</h3>
+                                <button
+                                    onClick={() => setIsSizeChartOpen(true)}
+                                    className="text-[10px] uppercase font-bold tracking-[0.2em] text-gray-400 hover:text-brand-charcoal transition-colors cursor-pointer"
+                                >
+                                    Size Chart
+                                </button>
+                            </div>
                             <div className="flex flex-wrap gap-2">
                                 {sizes.map((size) => (
                                     <button
@@ -125,7 +135,7 @@ export default function ProductHero() {
 
                         {/* Color Selector */}
                         <div className="mb-12">
-                            <h3 className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-4 text-gray-400">Select Color</h3>
+                            <h3 className="text-xs uppercase tracking-[0.2em] font-bold mb-4 text-gray-600">Select Color</h3>
                             <div className="flex gap-4">
                                 {colors.map((color) => (
                                     <button
@@ -147,7 +157,7 @@ export default function ProductHero() {
                                 price: currentProduct.price,
                                 image: currentProduct.image
                             })}
-                            className="w-full bg-brand-charcoal text-white py-5 px-8 flex items-center justify-between group hover:bg-brand-accent transition-colors duration-300 shadow-lg"
+                            className="w-full bg-brand-charcoal text-white py-5 px-8 flex items-center justify-between group hover:bg-brand-accent transition-all duration-300 shadow-lg cursor-pointer active:scale-95"
                         >
                             <span className="uppercase tracking-[0.3em] text-xs font-bold">Add to Cart</span>
                             <ShoppingCart size={18} strokeWidth={2} className="group-hover:translate-x-1 transition-transform" />
@@ -155,6 +165,7 @@ export default function ProductHero() {
                     </motion.div>
                 </AnimatePresence>
             </div>
+            <SizeChartModal isOpen={isSizeChartOpen} onClose={() => setIsSizeChartOpen(false)} />
         </section>
     );
 }

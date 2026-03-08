@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const products = [
     {
-        id: 1,
+        id: "hero-1",
         name: "ELITE BLAZER",
         price: "$345.00",
         image: "/assets/dresses/012.jpg",
@@ -18,7 +18,7 @@ const products = [
         label: "LOOK 01"
     },
     {
-        id: 2,
+        id: "hero-2",
         name: "SILK SLIP DRESS",
         price: "$210.00",
         image: "/assets/dresses/011.jpg",
@@ -27,7 +27,7 @@ const products = [
         label: "LOOK 02"
     },
     {
-        id: 3,
+        id: "hero-3",
         name: "MINIMALIST BLOUSE",
         price: "$178.00",
         image: "/assets/tops/001.jpg",
@@ -36,7 +36,7 @@ const products = [
         label: "LOOK 03"
     },
     {
-        id: 4,
+        id: "hero-4",
         name: "KNIT CO-ORD SET",
         price: "$280.00",
         image: "/assets/dresses/005.jpg",
@@ -47,7 +47,7 @@ const products = [
 ];
 
 export default function AnimatedCatalog() {
-    const [hoveredId, setHoveredId] = useState<number | null>(products[1].id); // Default to Look 02 as in request
+    const [hoveredId, setHoveredId] = useState<string | null>(products[1].id); // Default to Look 02 as in request
     const { addToCart } = useCart();
 
     return (
@@ -116,7 +116,7 @@ export default function AnimatedCatalog() {
                                                     <motion.span
                                                         initial={{ y: 20, opacity: 0 }}
                                                         animate={{ y: 0, opacity: 1 }}
-                                                        className="text-xs uppercase tracking-[0.5em] font-black text-brand-accent block"
+                                                        className="text-xs uppercase tracking-[0.4em] font-black text-brand-accent block"
                                                     >
                                                         {product.label}
                                                     </motion.span>
@@ -134,7 +134,7 @@ export default function AnimatedCatalog() {
                                                         initial={{ opacity: 0 }}
                                                         animate={{ opacity: 1 }}
                                                         transition={{ delay: 0.3 }}
-                                                        className="text-gray-500 text-sm leading-relaxed"
+                                                        className="text-gray-600 text-sm leading-relaxed font-medium"
                                                     >
                                                         {product.desc}
                                                     </motion.p>
@@ -142,7 +142,7 @@ export default function AnimatedCatalog() {
 
                                                 <div className="flex justify-between items-end border-t border-gray-100 pt-8">
                                                     <div className="space-y-4">
-                                                        <span className="text-xs uppercase tracking-widest font-bold text-gray-400 block">Colors</span>
+                                                        <span className="text-xs uppercase tracking-widest font-bold text-gray-500 block">Colors</span>
                                                         <div className="flex gap-2">
                                                             {product.colors.map(c => (
                                                                 <div key={c} className="w-5 h-5 rounded-full border border-gray-100" style={{ backgroundColor: c }} />
@@ -162,9 +162,9 @@ export default function AnimatedCatalog() {
                                                             image: product.image
                                                         });
                                                     }}
-                                                    className="w-full bg-brand-charcoal text-white py-5 px-8 flex items-center justify-between group overflow-hidden relative"
+                                                    className="w-full bg-brand-charcoal text-white py-5 px-8 flex items-center justify-between group overflow-hidden relative cursor-pointer active:scale-95 transition-all"
                                                 >
-                                                    <span className="relative z-10 uppercase tracking-[0.3em] text-[10px] font-bold">Add to Collection</span>
+                                                    <span className="relative z-10 uppercase tracking-[0.3em] text-xs font-bold">Add to Collection</span>
                                                     <ShoppingCart size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
                                                     <div className="absolute inset-0 bg-brand-accent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                                                 </button>
@@ -183,7 +183,7 @@ export default function AnimatedCatalog() {
                                         exit={{ opacity: 0 }}
                                         className="absolute inset-0 flex flex-col items-center justify-end pb-12 pointer-events-none"
                                     >
-                                        <span className="text-white text-[10px] uppercase font-black tracking-[0.6em] [writing-mode:vertical-lr] rotate-180 drop-shadow-md">
+                                        <span className="text-white text-xs uppercase font-black tracking-[0.6em] [writing-mode:vertical-lr] rotate-180 drop-shadow-md">
                                             {product.label}
                                         </span>
                                     </motion.div>
@@ -197,7 +197,7 @@ export default function AnimatedCatalog() {
                 <div className="flex justify-between items-center mt-12 px-4">
                     <div className="flex items-center gap-6 group cursor-pointer text-gray-400 hover:text-brand-charcoal transition-colors">
                         <div className="w-12 h-px bg-current group-hover:w-20 transition-all duration-500"></div>
-                        <span className="text-[10px] uppercase tracking-[0.4em] font-bold">Slide to Reveal</span>
+                        <span className="text-xs uppercase tracking-[0.3em] font-bold">Slide to Reveal</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <span className="text-[10px] font-black tracking-widest text-brand-charcoal">

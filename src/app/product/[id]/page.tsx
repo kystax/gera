@@ -2,12 +2,9 @@
 
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { products } from "@/data/products";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import {
-    ChevronLeft,
-    ShoppingBag,
     ArrowRight,
     Plus,
     Minus,
@@ -15,25 +12,53 @@ import {
     Share2,
     Shield
 } from "lucide-react";
-import { useState } from "react";
-import Link from "next/link";
+import { useState, useEffect } from "react";
+import SizeChartModal from "@/components/SizeChartModal";
 
 export default function ProductDetailPage() {
     const params = useParams();
     const router = useRouter();
-    const id = parseInt(params.id as string);
-    const product = products.find(p => p.id === id);
+    const id = params.id as string;
     const { addToCart } = useCart();
 
+    const [product, setProduct] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState("M");
     const [quantity, setQuantity] = useState(1);
+    const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const response = await fetch(`/api/products/${id}`);
+                const result = await response.json();
+                if (result.success) {
+                    setProduct(result.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch product:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (id) fetchProduct();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="animate-spin w-12 h-12 border-4 border-brand-accent border-t-transparent rounded-full font-black"></div>
+            </div>
+        );
+    }
 
     if (!product) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white">
                 <div className="text-center space-y-6">
-                    <h1 className="text-4xl font-display uppercase tracking-widest text-gray-200">Not Found</h1>
-                    <button onClick={() => router.back()} className="text-brand-charcoal border-b border-brand-charcoal py-2 px-8 uppercase text-[10px] font-bold tracking-widest">
+                    <h1 className="text-4xl font-display uppercase tracking-widest text-gray-200">Artifact Not Found</h1>
+                    <button onClick={() => router.back()} className="text-brand-charcoal border-b border-brand-charcoal py-2 px-8 uppercase text-[10px] font-black tracking-widest cursor-pointer">
                         Go Back
                     </button>
                 </div>
@@ -46,13 +71,13 @@ export default function ProductDetailPage() {
     return (
         <div className="min-h-screen bg-[#FAF9F6] text-brand-charcoal selection:bg-brand-charcoal selection:text-white">
             <main className="grid grid-cols-1 lg:grid-cols-12 min-h-screen pt-32">
-                {/* Left: Visual Showcase (6 cols) */}
-                <div className="lg:col-span-7 h-[80vh] lg:h-[calc(100vh-160px)] lg:sticky lg:top-36 overflow-hidden bg-white rounded-[32px] ml-8 mb-8 lg:mb-0 shadow-sm border border-gray-100/50">
+                {/* Left: Visual Showcase (7 cols) */}
+                <div className="lg:col-span-7 h-[80vh] lg:h-[calc(100vh-160px)] lg:sticky lg:top-36 overflow-hidden bg-white rounded-[40px] shadow-2xl border border-gray-100/50 mx-4 md:mx-8 mb-8 lg:mb-0">
                     <motion.div
-                        initial={{ scale: 0.98, opacity: 0 }}
+                        initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="relative w-full h-full p-4 lg:p-8"
+                        className="relative w-full h-full p-4 lg:p-12"
                     >
                         <Image
                             src={product.image}
@@ -68,16 +93,16 @@ export default function ProductDetailPage() {
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20"
+                            className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-brand-charcoal border border-white/20 shadow-xl cursor-pointer"
                         >
-                            <Heart size={16} strokeWidth={1.5} />
+                            <Heart size={20} strokeWidth={1} />
                         </motion.button>
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20"
+                            className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-brand-charcoal border border-white/20 shadow-xl cursor-pointer"
                         >
-                            <Share2 size={16} strokeWidth={1.5} />
+                            <Share2 size={20} strokeWidth={1} />
                         </motion.button>
                     </div>
                 </div>
@@ -104,9 +129,9 @@ export default function ProductDetailPage() {
                                 transition={{ delay: 0.3 }}
                                 className="flex justify-between items-end border-b border-gray-100 pb-8"
                             >
-                                <p className="text-3xl font-light text-brand-charcoal">{product.price}</p>
-                                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-bold text-gray-400">
-                                    <Shield size={14} className="text-brand-accent" /> Authentication Link
+                                <p className="text-4xl font-light text-brand-charcoal tracking-tight">{product.price}</p>
+                                <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-black text-gray-400">
+                                    <Shield size={16} className="text-brand-accent" /> Guaranteed Authentic
                                 </div>
                             </motion.div>
                         </div>
@@ -116,10 +141,11 @@ export default function ProductDetailPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="text-sm text-gray-500 leading-relaxed font-light"
+                            className="text-base text-gray-500 leading-relaxed font-medium"
                         >
                             {product.desc}
-                            Handcrafted with precision, this piece embodies modern luxury. The silhouette is designed for both structure and grace.
+                            <br /><br />
+                            Handcrafted with precision, this piece embodies modern luxury. The silhouette is designed for both structure and grace, ensuring a perfect presence at any occasion.
                         </motion.p>
 
                         {/* Personalization Options */}
@@ -128,15 +154,20 @@ export default function ProductDetailPage() {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center text-xs uppercase font-black tracking-[0.4em]">
                                     <span>Select Size</span>
-                                    <button className="text-gray-400 hover:text-brand-charcoal transition-colors border-b border-transparent">Size Chart</button>
+                                    <button
+                                        onClick={() => setIsSizeChartOpen(true)}
+                                        className="text-gray-400 hover:text-brand-charcoal transition-colors border-b border-transparent cursor-pointer font-black"
+                                    >
+                                        Size Chart
+                                    </button>
                                 </div>
                                 <div className="flex flex-wrap gap-4">
                                     {sizes.map(size => (
                                         <button
                                             key={size}
                                             onClick={() => setSelectedSize(size)}
-                                            className={`w-12 h-12 text-xs font-bold tracking-widest transition-all rounded-full border
-                                            ${selectedSize === size ? 'bg-brand-charcoal text-white border-brand-charcoal shadow-lg shadow-gray-200' : 'border-gray-100 hover:border-brand-charcoal text-gray-400'}`}
+                                            className={`w-14 h-14 text-xs font-black tracking-widest transition-all rounded-full border shadow-sm
+                                            ${selectedSize === size ? 'bg-brand-charcoal text-white border-brand-charcoal shadow-xl' : 'border-gray-100 hover:border-brand-charcoal text-gray-400'}`}
                                         >
                                             {size}
                                         </button>
@@ -145,26 +176,26 @@ export default function ProductDetailPage() {
                             </div>
 
                             {/* Quantity & Actions */}
-                            <div className="flex flex-col gap-4 pt-4">
+                            <div className="flex flex-col gap-6 pt-4">
                                 <div className="flex items-center justify-between w-full">
-                                    <div className="flex items-center bg-gray-50/50 rounded-full px-6 py-4 gap-8">
-                                        <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-400 hover:text-brand-charcoal transition-colors"><Minus size={14} /></button>
-                                        <span className="text-sm font-bold min-w-[20px] text-center">{quantity}</span>
-                                        <button onClick={() => setQuantity(quantity + 1)} className="text-gray-400 hover:text-brand-charcoal transition-colors"><Plus size={14} /></button>
+                                    <div className="flex items-center bg-white border border-gray-100 rounded-full px-8 py-5 gap-12 shadow-sm">
+                                        <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-400 hover:text-brand-charcoal transition-colors cursor-pointer"><Minus size={18} /></button>
+                                        <span className="text-base font-black min-w-[20px] text-center">{quantity}</span>
+                                        <button onClick={() => setQuantity(quantity + 1)} className="text-gray-400 hover:text-brand-charcoal transition-colors cursor-pointer"><Plus size={18} /></button>
                                     </div>
                                 </div>
 
                                 <button
                                     onClick={() => addToCart({
-                                        id: product.id,
+                                        id: product.pid || product._id,
                                         name: product.name,
                                         price: product.price,
                                         image: product.image
                                     })}
-                                    className="w-full bg-brand-charcoal text-white py-6 rounded-full flex items-center justify-center gap-6 group overflow-hidden relative shadow-2xl active:scale-[0.98] transition-all"
+                                    className="w-full bg-brand-charcoal text-white py-6 rounded-full flex items-center justify-center gap-6 group overflow-hidden relative shadow-2xl active:scale-[0.98] transition-all cursor-pointer"
                                 >
                                     <span className="relative z-10 text-xs uppercase tracking-[0.5em] font-black">Add to Collection</span>
-                                    <ArrowRight size={18} className="relative z-10 group-hover:translate-x-2 transition-transform duration-500" />
+                                    <ArrowRight size={20} className="relative z-10 group-hover:translate-x-2 transition-transform duration-500" />
                                     <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </button>
                             </div>
@@ -172,19 +203,20 @@ export default function ProductDetailPage() {
 
                         {/* Secondary Details Accordion */}
                         <div className="space-y-0 border-t border-gray-100">
-                            <DetailAccordion title="Fabric & Composition" content="100% Premium Mulberry Silk. Responsibly sourced and woven in our heritage mills." />
-                            <DetailAccordion title="Care & Maintenance" content="Professional dry clean only. Store in provided dust bag and avoid direct sunlight exposure." />
-                            <DetailAccordion title="Shipping & Returns" content="Complimentary express shipping on all orders over $500. Personalized returns within 14 days." />
+                            <DetailAccordion title="Fabric & Composition" content="100% Premium Mulberry Silk. Responsibly sourced and woven in our heritage mills focusing on purity and sustainability." />
+                            <DetailAccordion title="Care & Maintenance" content="Professional dry clean only. Store in provided dust bag and avoid direct sunlight exposure to maintain fabric integrity." />
+                            <DetailAccordion title="Shipping & Returns" content="Complimentary express shipping on all orders. Personalized boutique returns within 14 days of acquisition." />
                         </div>
 
                         {/* Footer Logo Decor */}
-                        <div className="pt-20 opacity-10 flex flex-col items-center gap-6">
+                        <div className="pt-20 opacity-5 flex flex-col items-center gap-6">
                             <div className="w-12 h-px bg-brand-charcoal" />
-                            <span className="text-[40px] font-display tracking-[0.5em]">GERA</span>
+                            <span className="text-[60px] font-display tracking-[0.5em]">GERA</span>
                         </div>
                     </div>
                 </div>
             </main>
+            <SizeChartModal isOpen={isSizeChartOpen} onClose={() => setIsSizeChartOpen(false)} />
         </div>
     );
 }
@@ -192,14 +224,14 @@ export default function ProductDetailPage() {
 function DetailAccordion({ title, content }: { title: string, content: string }) {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="border-b border-gray-100 py-8">
+        <div className="border-b border-gray-100 py-10">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex justify-between items-center text-xs uppercase font-extrabold tracking-[0.4em] text-gray-400 hover:text-brand-charcoal transition-colors"
+                className="w-full flex justify-between items-center text-xs uppercase font-black tracking-[0.4em] text-gray-400 hover:text-brand-charcoal transition-colors cursor-pointer"
             >
                 {title}
                 <motion.div animate={{ rotate: isOpen ? 135 : 0 }}>
-                    <Plus size={16} strokeWidth={1} />
+                    <Plus size={18} strokeWidth={1.5} />
                 </motion.div>
             </button>
             <AnimatePresence>
@@ -210,7 +242,7 @@ function DetailAccordion({ title, content }: { title: string, content: string })
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden"
                     >
-                        <p className="pt-6 text-sm leading-relaxed text-gray-500 font-light">
+                        <p className="pt-8 text-sm leading-relaxed text-gray-500 font-medium">
                             {content}
                         </p>
                     </motion.div>

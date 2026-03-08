@@ -47,7 +47,7 @@ export default function CategorySections() {
         <section className="bg-white py-32 px-4">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-20 space-y-4">
-                    <h2 className="text-xs uppercase tracking-[0.5em] font-bold text-gray-400">Curated Collections</h2>
+                    <h2 className="text-xs uppercase tracking-[0.5em] font-black text-brand-accent">Curated Collections</h2>
                     <h3 className="text-5xl md:text-6xl font-display">DISCOVER GERA</h3>
                 </div>
 
@@ -59,7 +59,7 @@ export default function CategorySections() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.1, duration: 0.8 }}
                             viewport={{ once: true }}
-                            className={`relative group overflow-hidden cursor-pointer ${cat.span}`}
+                            className={`relative group overflow-hidden cursor-pointer min-h-[400px] md:min-h-0 ${cat.span}`}
                         >
                             <Link href={cat.href} className="block w-full h-full">
                                 <Image

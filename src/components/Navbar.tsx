@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, ShoppingBag, User, Menu, X, ChevronDown, LogOut } from "lucide-react";
+import { Search, ShoppingBag, User, Menu, X, ChevronDown, LogOut, Package } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,6 +13,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const { cartCount } = useCart();
   const { data: session } = useSession();
@@ -48,7 +50,7 @@ export default function Navbar() {
               <div key={link.name} className="relative group">
                 <Link
                   href={link.href}
-                  className="text-[12px] uppercase font-bold tracking-[0.3em] transition-all duration-500 flex items-center gap-2 group-hover:text-brand-accent text-brand-charcoal"
+                  className="text-sm uppercase font-bold tracking-[0.2em] transition-all duration-500 flex items-center gap-2 group-hover:text-brand-accent text-brand-charcoal"
                 >
                   {link.name}
                   {link.dropdown && (
@@ -65,7 +67,7 @@ export default function Navbar() {
                           <Link
                             key={item}
                             href={`/shop/${item.toLowerCase()}`}
-                            className="text-xs uppercase font-extrabold tracking-[0.2em] text-gray-400 hover:text-brand-charcoal hover:translate-x-2 transition-all duration-300 flex items-center justify-between group/item"
+                            className="text-xs uppercase font-extrabold tracking-[0.15em] text-gray-500 hover:text-brand-charcoal hover:translate-x-2 transition-all duration-300 flex items-center justify-between group/item"
                           >
                             <span>{item}</span>
                             <div className="w-1.5 h-1.5 rounded-full bg-brand-accent scale-0 group-hover/item:scale-100 transition-transform" />
@@ -96,7 +98,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-[12px] uppercase font-bold tracking-[0.3em] transition-all duration-500 hover:text-brand-accent text-brand-charcoal"
+                  className="text-sm uppercase font-bold tracking-[0.2em] transition-all duration-500 hover:text-brand-accent text-brand-charcoal"
                 >
                   {link.name}
                 </Link>
@@ -104,14 +106,17 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-6">
-              <button className="text-brand-charcoal hover:text-brand-accent transition-all hover:scale-110 hidden sm:block">
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="text-brand-charcoal hover:text-brand-accent transition-all hover:scale-110 hidden sm:block cursor-pointer"
+              >
                 <Search size={22} strokeWidth={1.5} />
               </button>
 
               <div className="relative group/user">
                 {session ? (
                   <div className="flex items-center gap-3">
-                    <span className="hidden md:block text-[10px] uppercase font-black tracking-widest text-gray-400">
+                    <span className="hidden md:block text-xs uppercase font-black tracking-widest text-gray-500">
                       Welcome, {session.user?.name?.split(' ')[0]}
                     </span>
                     <button
@@ -131,10 +136,18 @@ export default function Navbar() {
                         >
                           <div className="bg-white border border-gray-100 shadow-[0_40px_80px_rgba(0,0,0,0.1)] p-6 min-w-[200px] rounded-[24px]">
                             <div className="space-y-4">
-                              <p className="text-[10px] uppercase font-black tracking-widest text-gray-300 border-b border-gray-50 pb-2">Member Account</p>
+                              <p className="text-xs uppercase font-black tracking-widest text-gray-500 border-b border-gray-100 pb-2">Member Account</p>
+                              <Link
+                                href="/orders"
+                                onClick={() => setIsUserMenuOpen(false)}
+                                className="w-full flex items-center justify-between text-xs font-bold text-gray-500 hover:text-brand-charcoal transition-colors group/orders"
+                              >
+                                My Orders
+                                <Package size={14} className="group-hover/orders:translate-x-1 transition-transform" />
+                              </Link>
                               <button
                                 onClick={() => signOut()}
-                                className="w-full flex items-center justify-between text-xs font-bold text-gray-400 hover:text-red-500 transition-colors group/logout"
+                                className="w-full flex items-center justify-between text-xs font-bold text-gray-500 hover:text-red-500 transition-colors group/logout"
                               >
                                 Sign Out
                                 <LogOut size={14} className="group-hover/logout:translate-x-1 transition-transform" />
@@ -148,7 +161,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/signin"
-                    className="text-[11px] uppercase font-black tracking-widest text-brand-charcoal hover:text-brand-accent transition-all flex items-center gap-2"
+                    className="text-xs uppercase font-black tracking-widest text-brand-charcoal hover:text-brand-accent transition-all flex items-center gap-2"
                   >
                     <User size={18} strokeWidth={1.5} />
                     <span className="hidden sm:inline">Sign In</span>
@@ -233,6 +246,61 @@ export default function Navbar() {
       </AnimatePresence>
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] bg-white flex flex-col p-8 lg:p-20"
+          >
+            <div className="max-w-7xl mx-auto w-full flex flex-col h-full">
+              <div className="flex justify-between items-center mb-20 lg:mb-40">
+                <span className="text-3xl font-display tracking-[0.4em] uppercase font-light text-brand-charcoal">Search</span>
+                <button
+                  onClick={() => setIsSearchOpen(false)}
+                  className="p-4 bg-gray-50 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+                >
+                  <X size={32} strokeWidth={1} className="text-brand-charcoal" />
+                </button>
+              </div>
+
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="relative group max-w-4xl w-full mx-auto">
+                  <input
+                    autoFocus
+                    type="text"
+                    placeholder="Search for collections, products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full text-4xl lg:text-7xl font-display text-brand-charcoal bg-transparent border-b border-gray-100 pb-8 outline-none focus:border-brand-charcoal transition-all placeholder:text-gray-100"
+                  />
+                  <div className="absolute right-0 bottom-8">
+                    <Search size={48} className="text-gray-200 group-focus-within:text-brand-charcoal transition-colors" strokeWidth={1} />
+                  </div>
+                </div>
+
+                <div className="mt-20 max-w-4xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                  <div className="space-y-6">
+                    <h4 className="text-xs uppercase tracking-[0.4em] font-black text-brand-accent">Trending</h4>
+                    <div className="flex flex-col gap-4 text-sm uppercase tracking-widest font-bold text-gray-400">
+                      <Link href="/shop/bridal" onClick={() => setIsSearchOpen(false)} className="hover:text-brand-charcoal transition-colors">Bridal Collection</Link>
+                      <Link href="/shop/dresses" onClick={() => setIsSearchOpen(false)} className="hover:text-brand-charcoal transition-colors">Silk Dresses</Link>
+                      <Link href="/shop/tops" onClick={() => setIsSearchOpen(false)} className="hover:text-brand-charcoal transition-colors">Minimalist Tops</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-auto flex justify-center py-10 opacity-10">
+                <span className="text-9xl font-display tracking-[0.5em] text-brand-charcoal select-none">GERA</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
