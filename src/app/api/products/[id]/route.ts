@@ -4,16 +4,17 @@ import Product from '@/models/Product';
 
 export async function GET(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         await dbConnect();
+        const { id } = await params;
 
         // We try to find by original pid or by MongoDB _id
         const product = await Product.findOne({
             $or: [
-                { pid: params.id },
-                { _id: params.id.match(/^[0-9a-fA-F]{24}$/) ? params.id : null }
+                { pid: id },
+                { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }
             ].filter(cond => cond.pid || cond._id)
         });
 
